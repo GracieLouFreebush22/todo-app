@@ -34,7 +34,7 @@ function App(): JSX.Element {
       <h1>Grace's To Do App</h1>
         <p>
           {tasks.map((item, i) => (
-              <li key={i}> {item.id} </li> )
+              <li key={i}> {item.id}- {item.message} </li> )
           )}
         </p>
     </div>
