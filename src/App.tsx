@@ -66,12 +66,12 @@ function App(): JSX.Element {
   );
 }
 interface ItemViewProps {
-  item: ITask;
+  passItem: ITask;
 }
 
 function ItemView(props: ItemViewProps): JSX.Element {
   console.log("the passed props are", props);
-  return <>TASK: {props.item.message}</>;
+  return <>TASK: {props.passItem.message}</>;
 }
 export default App;
 
