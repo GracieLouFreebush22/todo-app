@@ -14,7 +14,7 @@ function App(): JSX.Element {
   useEffect(() => {
     
     const fetchandStoreAxios= async () => {
-      const response = await axios.get("https://graces-todoapp.onrender.com/items")
+      const response = await axios.get("")
       //setTask(response.data)
       const fetchinTasks = response.data
       //added in [0] and got the array of ids back 
@@ -26,25 +26,37 @@ function App(): JSX.Element {
       fetchandStoreAxios();
   }, [])
   //item here was an object, cannot map through objs
-    const handleAddToDo= () => {
-      //const [newTaskMessage, setNewTaskMessage]= useState("")
-      console.log("handle add todo is working")
-      const newTask = ""
-      console.log(newTask)
-      //axios.post("https://graces-todoapp.onrender.com/items", newTask)
-    }
+  const [newTaskMessage, setNewTaskMessage]= useState("")
+  //when you input text into the box it will save the input value
+  const handleNewTaskChange= (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTaskMessage(event.target.value)
+    console.log(event.target.value)
+  }
+
+  useEffect (() => {
+    console.log("use effect ran")
+  })
+  //take the input value from above and post it into my api
+  // without useEffect i only see the new task when i refresh- want it to happen automatically!
+  const handleAddToDo= () => {
+    console.log("handle add todo is working", newTaskMessage)
+    axios.post("https://graces-todoapp.onrender.com/items", newTaskMessage)
+  }
 
   return (
     <div>
       <h1>Grace's To Do App</h1>
-      <input type="text"/>
-      <button onClick={handleAddToDo}> Add ToDo </button>
       
+      <input type="text" value={newTaskMessage} onChange={handleNewTaskChange}/>
+      <button onClick={handleAddToDo}> Add ToDo </button>
+
+      <hr/>
         <p>
           {fetchedTasks.map((item, i) => (
-              <li key={i}> <ItemView passItem={item}/> </li> )
+              <p key={i}> <ItemView passItem={item}/> </p> )
           )}
         </p>
+        
     </div>
     
   )
@@ -54,7 +66,7 @@ function ItemView(props: any): JSX.Element {
   console.log("the passed props are", props)
   return(
     <>
-      {props.passItem.id}
+      TASK {props.passItem.id} : {props.passItem.message}
     </>
   )
 }
@@ -62,38 +74,8 @@ export default App;
 
 
 /*
+1. task messages not showing up on screen
+2. new entries not showing up in postman 
 
-<ul>
-        {task.map((el: ITask, i:number) => (
-          <li key={i}> {el}</li> ))}
-        </ul>
-{setTask.map((item, ix) => (<p key={ix}> {item} </p> ))}
-
-after await: axios.get(
-  <ul>
-        {setTask.map((el, i) => {<p key={i}> {el}</p> })}
-        </ul> 
-   
-   {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      data: JSON.stringify(fetchedTasks)
-    })
-     
-  () => {
-    fetch("https://graces-todoapp.onrender.com/")
-       .then(response => response.json())
-       .then((jsonBody) => setTask(jsonBody.));
-   }, [])
-   //as is
-    const getAllTasks = async () => {  
-    const response = await axios.get("https://graces-todoapp.onrender.com/", 
-    const fetchedTasks = response.json
-      setTask(fetchedTasks.data);
-      console.log(fetchedTasks)
-    }
-  getAllTasks()
- }, [])
-   
    
    */
