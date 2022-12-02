@@ -34,7 +34,7 @@ function App(): JSX.Element {
       <h1>Grace's To Do App</h1>
         <p>
           {tasks.map((item, i) => (
-              <li key={i}> {item.id}- {item.message} </li> )
+              <li key={i}> <ItemView passItem={item}/> </li> )
           )}
         </p>
     </div>
@@ -42,6 +42,14 @@ function App(): JSX.Element {
   )
 }
 
+function ItemView(props: any): JSX.Element {
+  console.log("the passed props are", props)
+  return(
+    <div>
+      {props.passItem.id}
+    </div>
+  )
+}
 export default App;
 
 
