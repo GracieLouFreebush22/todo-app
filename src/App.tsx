@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { greet } from "./utils/greet";
 
 interface ITask {
   id: number 
@@ -10,30 +9,39 @@ interface ITask {
 
 function App(): JSX.Element {
   //task is being mapped using function setTask
-  const [tasks, setTasks]= useState<ITask[]>([])
+  const [fetchedTasks, setFetchedTasks]= useState<ITask[]>([])
   
   useEffect(() => {
     
     const fetchandStoreAxios= async () => {
       const response = await axios.get("https://graces-todoapp.onrender.com/items")
       //setTask(response.data)
-      const fetchedTasks = response.data
+      const fetchinTasks = response.data
       //added in [0] and got the array of ids back 
-      console.log("i am response data",fetchedTasks)
-      setTasks(fetchedTasks);
+      console.log("i am response data",fetchinTasks)
+      setFetchedTasks(fetchinTasks);
 
       //console.log("i am set task", setTask)
     };
       fetchandStoreAxios();
   }, [])
   //item here was an object, cannot map through objs
-    
+    const handleAddToDo= () => {
+      //const [newTaskMessage, setNewTaskMessage]= useState("")
+      console.log("handle add todo is working")
+      const newTask = ""
+      console.log(newTask)
+      //axios.post("https://graces-todoapp.onrender.com/items", newTask)
+    }
 
   return (
     <div>
       <h1>Grace's To Do App</h1>
+      <input type="text"/>
+      <button onClick={handleAddToDo}> Add ToDo </button>
+      
         <p>
-          {tasks.map((item, i) => (
+          {fetchedTasks.map((item, i) => (
               <li key={i}> <ItemView passItem={item}/> </li> )
           )}
         </p>
@@ -45,9 +53,9 @@ function App(): JSX.Element {
 function ItemView(props: any): JSX.Element {
   console.log("the passed props are", props)
   return(
-    <div>
+    <>
       {props.passItem.id}
-    </div>
+    </>
   )
 }
 export default App;
